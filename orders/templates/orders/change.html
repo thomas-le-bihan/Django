@@ -1,0 +1,14 @@
+{% extends 'orders/base.html' %}
+{% load bootstrap3 %}
+
+{% block content %}{{ block.super }}
+    {% if order_id == '' %}
+    <form method="post" action="{% url 'change_order' %}" class="form">
+    {% else %}
+    <form method="post" action="{% url 'change_order' order_id=order_id %}" class="form">
+    {% endif %}
+        {% csrf_token %}
+        {% bootstrap_form order_form %}
+        {% bootstrap_button content="Save" button_type="submit" button_class="btn btn-primary" %}
+    </form>
+{% endblock %}

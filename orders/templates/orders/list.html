@@ -1,0 +1,43 @@
+{% extends 'orders/base.html' %}
+{% load bootstrap3 %}
+
+
+{% block content %}{{ block.super }}
+    <div>
+        <a href="{% url 'change_order' %}" class="btn btn-primary">New order</a>
+    </div>
+    <div>
+        <form method="get" action="{% url 'list_order' %}">
+            <input type="text" name="q">
+            {% bootstrap_button content="" button_type="submit" button_class="btn btn-default glyphicon glyphicon-search" %}
+            {% if orders.count != total_order %}
+                {{ orders.count }} result{{ orders.count|pluralize }} <a href="{% url 'list_order' %}">({{ total_order }} total)</a>
+            {% endif %}
+        </form>
+    </div>
+    <div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Order id</th>
+                    <th>Order mrid</th>
+                    <th>Order refid</th>
+                    <th>Order amount</th>
+                    <th>Marketplace</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td><a href="{% url 'change_order' order_id=order.pk %}">{{ order.order_id }}</a></td>
+                        <td>{{ order.order_mrid }}</td>
+                        <td>{{ order.order_refid }}</td>
+                        <td>{{ order.order_amount }}</td>
+                        <td>{{ order.marketplace }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
